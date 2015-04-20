@@ -1,0 +1,66 @@
+<script>
+  window.turn = 1;
+  window.num_players = <%= @num_players %>
+</script>
+<%rows = cols = @grid_size %>
+<table class="table table-bordered" id="grid">
+  <tbody>
+    <%rows.times do |r| %>
+      <tr>
+        <%cols.times do |c| %>
+          <% type = determine_cell_type(@grid_size-1, r, c) %>
+          <td class="chain_cell fade <%=type%>" id="cell_<%=r%>_<%=c%>" onclick="insertBall($(this).children().first(), <%= r %>, <%= c %>, '<%=type%>')">
+            <div class="ball_holder" value = "" ></div>
+          </td>
+        <%end%>
+      </tr>
+    <%end%>
+  </tbody>
+</table>
+<script>
+var grid = new Array(<%=@grid_size%>)
+for(var i=0;i<<%=@grid_size%>;i++){
+  grid[i] = new Array(<%=@grid_size%>);
+  for(var j=0;j<<%=@grid_size%>;j++){
+    grid[i][j] = (function(){
+      var val = 0;
+      var player = -1;
+      var x = i;
+      var y =j;
+      return {
+        get_val : function() { return val; },
+        set_val : function(new_val, pl) {
+          val = new_val;
+          player = pl;
+          if(new_val == 0){
+            player = -1;
+            if(grid[x][y+1] != null ){
+              grid[x][y+1].set_val(grid[x][y+1].get_val()+1, pl);
+            }
+            if(grid[x][y-1] != null ){
+              grid[x][y-1].set_val(grid[x][y-1].get_val()+1, pl);
+            }
+            if(grid[x-1] != null && grid[x-1][y] != null){
+              grid[x-1][y].set_val(grid[x-1][y].get_val()+1, pl);
+            }
+            if(grid[x+1] != null && grid[x+1][y] != null){
+              grid[x+1][y].set_val(grid[x+1][y].get_val()+1, pl);
+            }
+          }
+          else{
+            val = new_val;
+            checkAndBurst(grid.length, x, y, pl);
+          }
+        },
+        get_player : function() { return player; },
+        set_player : function(pl){
+          player = pl;
+        }
+      }
+    })();
+  }
+}
+
+var limit = {"corner":1, "edge":2, "normal":3};
+var color = {0:"red", 1:"green", 2:"blue", 3:"orange", 4:"white"};
+</script>

@@ -1,0 +1,96 @@
+body{
+    background: -webkit-linear-gradient(#888888, white)fixed;
+    background: -o-linear-gradient(#888888, white)fixed;
+    background: -moz-linear-gradient(#888888, white)fixed;
+    background: linear-gradient(#888888, white)fixed;
+}
+table#grid {
+	display:compact;
+    position: absolute;
+    height:70vh;
+    width:70vh;
+    top:0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    margin: auto;
+    box-shadow: 15px 15px 15px #888888;
+}
+.main_form{
+    background: -webkit-linear-gradient(black, grey)fixed;
+    background: -o-linear-gradient(black, grey)fixed;
+    background: -moz-linear-gradient(black, grey)fixed;
+    background: linear-gradient(black, grey)fixed;
+    position: absolute;
+    top:0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    margin: auto;
+    display: inline-table;
+    box-shadow: 10px 10px 15px #888888;
+}
+
+.fade {
+   opacity: 0.8;
+   background-color: black;
+}
+
+.fade:hover {
+  opacity: 0.5;
+}
+
+.ball_holder{
+	position:relative;
+	height:100%;
+	width:100%
+}
+
+.circle {
+	border-radius:50%;
+	background-color: #eee;
+	background-size:40% 40%;
+
+    width: 80%;
+    height: 80%;
+}
+
+.red{
+	background-image: linear-gradient(45deg, red 25%, black 25%, red 75%, red 75%, red), 
+	linear-gradient(-45deg, red 25%, black 25%, black 75%, red 75%, red);
+}
+.green{
+	background-image: linear-gradient(45deg, green 25%, black 25%, green 75%, green 75%, green), 
+	linear-gradient(-45deg, green 25%, black 25%, black 75%, green 75%, green);
+}
+.orange{
+    background-image: linear-gradient(45deg, orange 25%, black 25%, orange 75%, orange 75%, orange), 
+    linear-gradient(-45deg, orange 25%, black 25%, black 75%, orange 75%, orange);
+}
+.white{
+    background-image: linear-gradient(45deg, white 25%, black 25%, white 75%, white 75%, white), 
+    linear-gradient(-45deg, white 25%, black 25%, black 75%, white 75%, white);
+}
+.blue{
+    background-image: linear-gradient(45deg, blue 25%, black 25%, blue 75%, blue 75%, blue), 
+    linear-gradient(-45deg, blue 25%, black 25%, black 75%, blue 75%, blue);
+}
+
+
+.spinning{
+
+-webkit-animation:spin 4s linear infinite;
+    -moz-animation:spin 4s linear infinite;
+    animation:spin 4s linear infinite
+	
+}
+
+.spin_with_delay{
+    -webkit-animation:spin 50s linear infinite;
+    -moz-animation:spin 50s linear infinite;
+    animation:spin 50s linear infinite;
+}
+
+@-moz-keyframes spin { 100% { -moz-transform: rotate(360deg); } }
+@-webkit-keyframes spin { 100% { -webkit-transform: rotate(360deg); } }
+@keyframes spin { 100% { -webkit-transform: rotate(360deg); transform:rotate(360deg); } }

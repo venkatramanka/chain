@@ -1,0 +1,8 @@
+<div class="main_form col-xs-offset-2 col-xs-8 col-md-offset-4 col-md-4">
+	<br/>
+	<%=form_tag "index", :class => "form-group col-xs-offset-2 col-xs-8", :method => "GET", :style => "" do %>
+		<%= text_field_tag "grid_size", nil, :class => "form-control", :placeholder => "Enter Grid Size (min : 5)" %><br/>
+		<%= text_field_tag "num_players", nil, :class => "form-control", :placeholder => "Enter no. of players (max : 5)" %><br/>
+		<%= submit_tag "Start", :class => "btn btn-sm btn-warning col-xs-offset-5 col-xs-2 col-md-offset-4 col-md-4" %>
+	<%end%>
+</div>
