@@ -16,6 +16,19 @@ table#grid {
     margin: auto;
     box-shadow: 15px 15px 15px #888888;
 }
+label {
+    position: relative;
+    top: -0.2vh;
+    color: beige;
+}
+#join_form{
+    position: relative;
+    bottom: 1vh;
+}
+
+.table th, .table td { 
+     border: none !important;
+ }
 .main_form{
     background: -webkit-linear-gradient(black, grey)fixed;
     background: -o-linear-gradient(black, grey)fixed;
@@ -31,13 +44,18 @@ table#grid {
     box-shadow: 10px 10px 15px #888888;
 }
 
-.fade {
-   opacity: 0.8;
-   background-color: black;
+td.even{
+    background-color: #dddddd;
+}
+td.odd{
+    background-color: #cccccc;
 }
 
-.fade:hover {
-  opacity: 0.5;
+.fade {
+   opacity: 0.8;
+}
+.fade:hover{
+    background-color: #aaaaaa;
 }
 
 .ball_holder{
@@ -47,41 +65,38 @@ table#grid {
 }
 
 .circle {
-	border-radius:50%;
-	background-color: #eee;
-	background-size:40% 40%;
-
-    width: 80%;
-    height: 80%;
+	border-radius:100%;
+    width: 40%;
+    height: 40%;
 }
 
 .red{
-	background-image: linear-gradient(45deg, red 25%, black 25%, red 75%, red 75%, red), 
-	linear-gradient(-45deg, red 25%, black 25%, black 75%, red 75%, red);
+	background:url(/assets/red.GIF);
+    background-size: cover;
 }
 .green{
-	background-image: linear-gradient(45deg, green 25%, black 25%, green 75%, green 75%, green), 
-	linear-gradient(-45deg, green 25%, black 25%, black 75%, green 75%, green);
+	background:url(/assets/green.GIF);
+    background-size: cover;
 }
 .orange{
-    background-image: linear-gradient(45deg, orange 25%, black 25%, orange 75%, orange 75%, orange), 
-    linear-gradient(-45deg, orange 25%, black 25%, black 75%, orange 75%, orange);
+    background:url(/assets/orange.GIF);
+    background-size: cover;
 }
 .white{
-    background-image: linear-gradient(45deg, white 25%, black 25%, white 75%, white 75%, white), 
-    linear-gradient(-45deg, white 25%, black 25%, black 75%, white 75%, white);
+   background:url(/assets/white.GIF);
+   background-size: cover;
 }
 .blue{
-    background-image: linear-gradient(45deg, blue 25%, black 25%, blue 75%, blue 75%, blue), 
-    linear-gradient(-45deg, blue 25%, black 25%, black 75%, blue 75%, blue);
+    background:url(/assets/blue.GIF);
+    background-size: cover;
 }
 
 
 .spinning{
 
--webkit-animation:spin 4s linear infinite;
+    -webkit-animation:spin 4s linear infinite;
     -moz-animation:spin 4s linear infinite;
-    animation:spin 4s linear infinite
+    animation:spin 4s linear infinite;
 	
 }
 

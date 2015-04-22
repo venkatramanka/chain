@@ -1,6 +1,8 @@
 Chain::Application.routes.draw do
   get "home/start"
   get "home/index"
+  get "home/join"
+  get "home/end"
   # The priority is based upon order of creation:
   # first created -> highest priority.
 

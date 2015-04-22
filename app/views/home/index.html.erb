@@ -1,24 +1,43 @@
 <script>
-  window.turn = 1;
-  window.num_players = <%= @num_players %>
+  window.turn = 0;
+  window.move_count=0;
+  window.grid_size = <%= @grid_size %>;
+  window.num_players = <%= @num_players %>;
+  window.rem_players = <%= (0...@num_players).to_a %>;
+  window.secure_random = "<%= @secure_random %>";
+  window.remote_id = "<%= @remote_id || @secure_random %>";
+  window.connected_players = 0;
+  window.is_self = false;
+  window.self_id = <%= @player_cnt || 0 %>;
+</script>
+<% if @secure_random %>
+  <div class="alert alert-info" id="remote_hex"><%="Remote Session ID : #{@secure_random}. Waiting for other players to join."%> <span style="float:right" class="btn btn-danger btn-xs" onclick="$('#remote_hex').hide(500)">X</span></div>
+<% end %>
+<script>
+$(document).ready(function(){
+  if(window.secure_random != "")
+    $.blockUI({ message: '<h3> Waiting for other Players to Join.</h3></br><h4>Pass on your game session : '+ window.secure_random });
+});
 </script>
 <%rows = cols = @grid_size %>
-<table class="table table-bordered" id="grid">
+<table class="table" id="grid">
   <tbody>
+    <% odd_even_count = 1 %>
     <%rows.times do |r| %>
       <tr>
         <%cols.times do |c| %>
           <% type = determine_cell_type(@grid_size-1, r, c) %>
-          <td class="chain_cell fade <%=type%>" id="cell_<%=r%>_<%=c%>" onclick="insertBall($(this).children().first(), <%= r %>, <%= c %>, '<%=type%>')">
+          <td class="chain_cell <%=odd_even_count.odd? ? 'odd' : 'even' %> fade <%=type%>" id="cell_<%=r%>_<%=c%>" onclick="insertBall($(this).children().first(), <%= r %>, <%= c %>, '<%=type%>')">
             <div class="ball_holder" value = "" ></div>
           </td>
+          <% odd_even_count += 1 %>
         <%end%>
       </tr>
     <%end%>
   </tbody>
 </table>
 <script>
-var grid = new Array(<%=@grid_size%>)
+var grid = new Array(<%=@grid_size%>);
 for(var i=0;i<<%=@grid_size%>;i++){
   grid[i] = new Array(<%=@grid_size%>);
   for(var j=0;j<<%=@grid_size%>;j++){
@@ -34,6 +53,7 @@ for(var i=0;i<<%=@grid_size%>;i++){
           player = pl;
           if(new_val == 0){
             player = -1;
+            $('#cell_'+x+'_'+y).children().first().removeClass("spinning");
             if(grid[x][y+1] != null ){
               grid[x][y+1].set_val(grid[x][y+1].get_val()+1, pl);
             }
@@ -46,10 +66,12 @@ for(var i=0;i<<%=@grid_size%>;i++){
             if(grid[x+1] != null && grid[x+1][y] != null){
               grid[x+1][y].set_val(grid[x+1][y].get_val()+1, pl);
             }
+            determineIfPlayersOut();
           }
           else{
             val = new_val;
             checkAndBurst(grid.length, x, y, pl);
+            determineIfPlayersOut();
           }
         },
         get_player : function() { return player; },
@@ -63,4 +85,30 @@ for(var i=0;i<<%=@grid_size%>;i++){
 
 var limit = {"corner":1, "edge":2, "normal":3};
 var color = {0:"red", 1:"green", 2:"blue", 3:"orange", 4:"white"};
+var game_channel = dispatcher.subscribe("<%= @remote_id.nil? ? @secure_random.to_s : @remote_id.to_s %>");
+<% if @secure_random %>
+  game_channel.bind('player_connected', function(msg) {
+    window.connected_players += 1;
+    if(window.connected_players == (window.num_players-1))
+      $.unblockUI();
+  });
+<% else %>
+  dispatcher.trigger('game.connect', {"remote_id": window.remote_id});
+<% end %>
+
+game_channel.bind('player_move', function(msg){
+  var message = JSON.parse(msg)
+  if(window.is_self == true){
+    window.is_self = false;
+  }
+  else{
+    insertRemoteBall(message.row, message.col, message.player_num);
+  }
+});
+//To block UI initially for players joining in
+$(document).ready(function(){
+if(window.self_id != window.rem_players[(window.move_count)%(window.rem_players.length)]){
+  blockUIForSelf();
+}
+});
 </script>
