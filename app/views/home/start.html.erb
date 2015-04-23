@@ -1,11 +1,11 @@
 <div class="main_form col-xs-offset-2 col-xs-8 col-md-offset-4 col-md-4">
 	<br/>
-	<%=form_tag "index", :class => "form-group col-xs-offset-2 col-xs-8", :method => "GET", :style => "" do %>
+	<%=form_tag :home_index, :class => "form-group col-xs-offset-2 col-xs-8", :method => "GET", :style => "" do %>
 		<%= text_field_tag "grid_size", nil, :class => "form-control", :placeholder => "Enter Grid Size (min : 5, Odd no.)" %><br/>
 		<%= text_field_tag "num_players", nil, :class => "form-control", :placeholder => "Enter no. of players (max : 5)" %><br/>
 		<%= submit_tag "Start", :class => "btn btn-sm btn-warning col-xs-offset-5 col-xs-2 col-md-offset-4 col-md-4" %>
 	<%end%>
-	<%=form_tag "join", :id => 'join_form', :class => "form-inline col-xs-offset-2", :method => "GET", :style => "" do %>
+	<%=form_tag :home_join, :id => 'join_form', :class => "form-inline col-xs-offset-2", :method => "GET", :style => "" do %>
 	    <%= text_field_tag "remote_id", nil, :class => "col-xs-3 form-control", :placeholder => "Enter Remote session ID" %>
 	    <%= button_tag "Join Game", :id => 'join_button', :class => "form-control btn btn-md btn-warning col-xs-offset-1 col-xs-3"%>
 	<% end %>

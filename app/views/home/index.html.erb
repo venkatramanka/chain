@@ -10,15 +10,6 @@
   window.is_self = false;
   window.self_id = <%= @player_cnt || 0 %>;
 </script>
-<% if @secure_random %>
-  <div class="alert alert-info" id="remote_hex"><%="Remote Session ID : #{@secure_random}. Waiting for other players to join."%> <span style="float:right" class="btn btn-danger btn-xs" onclick="$('#remote_hex').hide(500)">X</span></div>
-<% end %>
-<script>
-$(document).ready(function(){
-  if(window.secure_random != "")
-    $.blockUI({ message: '<h3> Waiting for other Players to Join.</h3></br><h4>Pass on your game session : '+ window.secure_random });
-});
-</script>
 <%rows = cols = @grid_size %>
 <table class="table" id="grid">
   <tbody>
@@ -87,10 +78,13 @@ var limit = {"corner":1, "edge":2, "normal":3};
 var color = {0:"red", 1:"green", 2:"blue", 3:"orange", 4:"white"};
 var game_channel = dispatcher.subscribe("<%= @remote_id.nil? ? @secure_random.to_s : @remote_id.to_s %>");
 <% if @secure_random %>
-  game_channel.bind('player_connected', function(msg) {
-    window.connected_players += 1;
-    if(window.connected_players == (window.num_players-1))
-      $.unblockUI();
+  $(document).ready(function(){
+    $.blockUI({ message: '<h5>Waiting for other players to join. Pass on your game ID : '+window.secure_random+'</h5>'});
+    game_channel.bind('player_connected', function(msg) {
+      window.connected_players += 1;
+      if(window.connected_players == (window.num_players-1))
+        $.unblockUI();
+    });
   });
 <% else %>
   dispatcher.trigger('game.connect', {"remote_id": window.remote_id});
