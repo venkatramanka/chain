@@ -1,4 +1,5 @@
 Chain::Application.routes.draw do
+  root :to => 'home#start'
   get "home/start"
   get "home/index"
   get "home/join"
