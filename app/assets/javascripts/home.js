@@ -138,6 +138,9 @@ function insertRemoteBall(r,c, pl){
 }
 
 function blockUIForSelf(){
-  $.blockUI({ message: '<h5>Wait for your turn</h5>'});
+  if(window.mobile)
+    $.blockUI({ message: '<h5 style="font-size: 4em;" >Wait for your turn</h5>', css: {height:'20vh', width: '90vw', position: 'absolute', left: '5vw', top: '30vh'} });
+  else
+    $.blockUI({ message: '<h5>Wait for your turn</h5>'});
 }
 

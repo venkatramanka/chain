@@ -7,6 +7,9 @@ class HomeController < ApplicationController
 
   def join
     @remote_id = params[:remote_id]
+    unless $sessions[@remote_id]
+      redirect_to :home_start, :flash => {:error => "Invalid Game ID"} and return
+    end
     @grid_size = $sessions[@remote_id][0]
     @num_players = $sessions[@remote_id][1]
     $sessions[@remote_id][2] += 1

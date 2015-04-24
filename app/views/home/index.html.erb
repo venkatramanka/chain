@@ -9,6 +9,10 @@
   window.connected_players = 0;
   window.is_self = false;
   window.self_id = <%= @player_cnt || 0 %>;
+  window.mobile = false;
+  if((navigator.platform.indexOf("android")>=0 || navigator.platform.indexOf("armv7")>=0)){
+    window.mobile = true;
+  }
 </script>
 <%rows = cols = @grid_size %>
 <table class="table" id="grid">
@@ -79,7 +83,10 @@ var color = {0:"red", 1:"green", 2:"blue", 3:"orange", 4:"white"};
 var game_channel = dispatcher.subscribe("<%= @remote_id.nil? ? @secure_random.to_s : @remote_id.to_s %>");
 <% if @secure_random %>
   $(document).ready(function(){
-    $.blockUI({ message: '<h5>Waiting for other players to join. Pass on your game ID : '+window.secure_random+'</h5>'});
+    if(window.mobile)
+      $.blockUI({  message: '<h5 style="font-size: 3.6em;">Waiting for other players to join. Pass on your game ID : <br/><center>'+window.secure_random+'</center></h5>', css: {height:'40vh', width: '90vw', position: 'absolute', left: '5vw', top: '20vh'} });
+    else
+      $.blockUI({ message: '<h5>Waiting for other players to join. Pass on your game ID : '+window.secure_random+'</h5>'});
     game_channel.bind('player_connected', function(msg) {
       window.connected_players += 1;
       if(window.connected_players == (window.num_players-1))

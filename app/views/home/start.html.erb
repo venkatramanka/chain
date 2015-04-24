@@ -1,4 +1,16 @@
-<div class="main_form col-xs-offset-2 col-xs-8 col-md-offset-4 col-md-4">
+<script>
+$( document ).ready(function() {      
+    var android = (navigator.platform.indexOf("android")>=0 || navigator.platform.indexOf("armv7")>=0);
+    if (android) {
+    	window.mobile = true;
+        $("#medium_start_form").remove();
+    }
+    else{
+    	$("#mobile_start_form").remove();
+    }
+ });
+</script>
+<div id="medium_start_form" class="main_form col-xs-offset-2 col-xs-8 col-md-offset-4 col-md-4">
 	<br/>
 	<%=form_tag :home_index, :class => "form-group col-xs-offset-2 col-xs-8", :method => "GET", :style => "" do %>
 		<%= text_field_tag "grid_size", nil, :class => "form-control", :placeholder => "Enter Grid Size (min : 5, Odd no.)" %><br/>
@@ -8,5 +20,44 @@
 	<%=form_tag :home_join, :id => 'join_form', :class => "form-inline col-xs-offset-2", :method => "GET", :style => "" do %>
 	    <%= text_field_tag "remote_id", nil, :class => "col-xs-3 form-control", :placeholder => "Enter Remote session ID" %>
 	    <%= button_tag "Join Game", :id => 'join_button', :class => "form-control btn btn-md btn-warning col-xs-offset-1 col-xs-3"%>
+	<% end %>
+</div>
+<div id="mobile_start_form" class="main_form" style="height:100%;width:100vw;overflow:hidden">
+	<%=form_tag :home_index, :id => 'mobile_new_game', :class => "form-group", :method => "GET", :style => "width:100%;height:25%" do %>
+		<table style="width:90%; height:80%;">
+			<tr>
+				<center>
+					<%= number_field_tag "grid_size", nil, :class => "form-control", :placeholder => "Enter Grid Size (min : 5, Odd no.)", :style => "width:90%; height:30%; font-size:4em; margin-top:5%", :onfocus => "$('#mobile_join_form').hide(); $('#or').hide()", :onblur => "$('#mobile_join_form').show(); $('#or').show()" %><br/>
+				</center>
+			</tr>
+			<tr>
+				<center>
+					<%= number_field_tag "num_players", nil, :class => "form-control", :placeholder => "Enter no. of players (max : 5)", :style => "width:90%; height:30%; font-size:4em", :onfocus => "$('#mobile_join_form').hide(); $('#or').hide()", :onblur => "$('#mobile_join_form').show(); $('#or').show()" %><br/>
+				</center>
+			</tr>
+			<tr>
+				<center>
+					<%= submit_tag "Start", :class => "btn btn-lg btn-warning col-xs-offset-4 col-xs-4", :style => "font-size:3em;border-radius:1em" %>
+				</center>
+			</tr>
+		</table>
+	<%end%>
+	<center>
+		<span id="or" style="color:orange; font-size:3em">OR</span>
+	</center>
+	<br/>
+	<%=form_tag :home_join, :id => 'mobile_join_form', :class => "form-group", :method => "GET" do %>
+		<table style="width:90%; height:80%;">
+			<tr>
+				<center>
+	    			<%= text_field_tag "remote_id", nil, :class => "form-control", :placeholder => "Enter Remote session ID", :style => "width:90%; height:30%; font-size:4em", :onfocus => "$('#mobile_new_game').slideUp(1000);$('#or').slideUp(1000);", :onblur => "$('#mobile_new_game').slideDown(1000);$('#or').slideDown(1000)" %><br/>
+	    		</center>
+	    	</tr>
+	    	<tr>
+	    		<center>
+	    			<%= button_tag "Join", :id => 'join_button', :class => "btn btn-mg btn-warning col-xs-offset-4 col-xs-4", :style => "font-size:3em;border-radius:1em"%>
+	    		</center>
+	    	</tr>
+	    </table>
 	<% end %>
 </div>
